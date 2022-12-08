@@ -1,3 +1,5 @@
+library(quanteda)
+
 # create quanteda corpus
 
 # ...from a named character vector ---------
@@ -27,3 +29,5 @@ myCorpus <- corpus(myData.frame,
 summary(myCorpus)
 # notice how extra data.frame columns are added as extra variables
 
+# appendix: This is how I saved example file
+saveRDS(myCorpus, file = "sampleCorpus.RDS")
