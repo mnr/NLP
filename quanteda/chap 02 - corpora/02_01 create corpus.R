@@ -23,11 +23,13 @@ myData.frame$someInfo <- c("This","That","Another","One More")
 # columns must be identified by doc_id and text
 myCorpus <- corpus(myData.frame, 
                    docid_field = "docid",
-                   text_field = "myNamedVector"
+                   text_field = "myNamedVector",
+                   meta = list(thisCameFrom = "I made this myself")
                    )
+# meta = will come up in docvars
 
 summary(myCorpus)
 # notice how extra data.frame columns are added as extra variables
 
 # appendix: This is how I saved example file
-saveRDS(myCorpus, file = "sampleCorpus.RDS")
+saveRDS(myCorpus, file = "quanteda/sampleCorpus.RDS")
