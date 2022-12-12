@@ -18,6 +18,11 @@ tokens_select(scTokens,
               pattern = "citizens",
               selection = "keep")
 
+
+# tokens_remove and stopwords ---------
+# tokens_remove() is short for tokens_select(x, pattern, selection="remove")
+# tokens_keep() is short for tokens_select(x, pattern, selection="keep")
+
 # regular expression for citizens. 1 preceeding and following word
 tokens_keep(scTokens, 
             pattern = "[Cc]?itizen[s?]",
@@ -26,7 +31,3 @@ tokens_keep(scTokens,
 
 # remove stopwords
 tokens_remove(scTokens, pattern = stopwords("english"))
-
-# tokens_remove and stopwords ---------
-# tokens_remove() is short for tokens_select(x, pattern, selection="remove")
-# tokens_keep() is short for tokens_select(x, pattern, selection="keep")
