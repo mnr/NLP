@@ -21,9 +21,12 @@ dfm(scTokens) # what it looks like
 
 myDFM <- dfm(scTokens) # save the DFM for next steps
 
-ndoc(myDFM) # number of documents
-nfeat(myDFM) # number of features (aka terms)
-docnames(myDFM) # documents in DFM
-featnames(myDFM) # features in DFM
 
-topfeatures(myDFM, 5) # five most popular features (terms)
+# dfm_group
+# dfm_lookup
+# dfm_match
+# dfm_sort
+
+# rarely needed...
+# dfm_compress
+
