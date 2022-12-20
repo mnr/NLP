@@ -43,7 +43,8 @@ dfm_lookup(x = myDFM_stemmed, dictionary = billOfRights_dictionary)
 # find major features across all documents
 dfm_trim(myDFM_stemmed, min_termfreq = 400)
 
-sort(featfreq(myDFM_stemmed), decreasing = TRUE) # confirm min_termfreq. 
+# look ahead to textstats
+head(textstat_frequency(myDFM_stemmed))
 
 # subset features
 # list features starting with "free"
