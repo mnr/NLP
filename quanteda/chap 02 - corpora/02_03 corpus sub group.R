@@ -18,6 +18,8 @@ corpus_sample(sampleCorpus,
               size = ndoc(sampleCorpus)/2)
 
 # "by" provides an extra dimension for corpus_sample
+sampleCorpus$charcount <- nchar(sampleCorpus)
+
 corpus_sample(sampleCorpus, 
               size = 1,
               by = charcount < 31)
