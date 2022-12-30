@@ -10,7 +10,7 @@ summary(sampleCorpus)
 as.character(sampleCorpus[1])
 
 # create tokens
-tokens(sampleCorpus[1]) # breaks doc 1 of corups into tokens (words)
+tokens(sampleCorpus[1]) # breaks doc 1 of corpus into tokens (words)
 as.character(tokens(sampleCorpus[1])) # look at the punctuation!
 
 # remove everything extraneous
@@ -21,4 +21,4 @@ as.character(tokens(sampleCorpus[1],
        remove_url = TRUE,
        remove_separators = TRUE))
 
-# 
+
