@@ -25,10 +25,5 @@ save(myDFM, file = "quanteda/chap 04 - dfm/mydfm.rds")
 # dfm_sort
 sortedDFM <- dfm_sort(myDFM, margin = "features")
 
-# dfm_group
-# dfm_lookup
-# dfm_match
 
-# rarely needed...
-# dfm_compress
 
