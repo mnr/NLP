@@ -1,9 +1,6 @@
 # Create and Modify DFM
 # dfm
-# dfm_compress
-# dfm_group
-# dfm_lookup
-# dfm_match
+# dfm_compress, dfm_group, dfm_lookup, dfm_match
 # dfm_sort
 
 library(quanteda)
