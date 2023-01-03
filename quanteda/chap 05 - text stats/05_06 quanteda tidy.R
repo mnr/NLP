@@ -11,15 +11,14 @@
 library(quanteda)
 library(quanteda.tidy)
 
-sampleCorpus <- corpus(data_corpus_inaugural)
-
 # examples..
-sampleCorpus %>% 
+data_corpus_inaugural %>% 
   filter(Year > 1950) %>%
   arrange(Party) %>%
   pull(President)
 
-newSampCorp <- sampleCorpus %>%
+newSampCorp <- data_corpus_inaugural %>%
   distinct(President) %>%
   mutate(firstWords = substr(text, start = 0, stop = 20))
+
 newSampCorp$firstWords
