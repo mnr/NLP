@@ -6,7 +6,7 @@
 library(quanteda)
 
 # create a tokens object
-scTokens <- tokens(corpus(data_corpus_inaugural), 
+scTokens <- tokens(data_corpus_inaugural, 
                    remove_numbers = TRUE,
                    remove_punct = TRUE,
                    remove_symbols = TRUE)

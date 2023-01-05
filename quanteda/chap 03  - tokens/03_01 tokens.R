@@ -3,7 +3,7 @@
 library(quanteda)
 
 # retrieve sample corpus
-sampleCorpus <- corpus(data_corpus_inaugural)
+sampleCorpus <- data_corpus_inaugural
 
 # what are we working with...
 summary(sampleCorpus)
