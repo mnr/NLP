@@ -10,15 +10,33 @@ library(quanteda.sentiment)
 
 # examples of dictionaries
 ?data_dictionary_NRC # descriptions in help files
-dfm(tokens(data_dictionary_geninqposneg))
+dd_geninq <- data_dictionary_geninqposneg
+tokens(dd_geninq) # an example dictionary
 
-# simple sentiment analysis
-inaugTokens <- tokens(data_corpus_inaugural, 
-                      remove_punct = TRUE,
-                      remove_symbols = TRUE,
-                      remove_numbers = TRUE)
+# add polarity to the example dictionary
+polarity(dd_geninq) <- list(pos = "positive", neg = "negative")
 
-dfm(tokens_lookup(inaugTokens, dictionary = data_dictionary_NRC))
-dfm(tokens_lookup(inaugTokens, dictionary = data_dictionary_geninqposneg))
+# create trimmed corpus
+scTokens <- tokens(data_corpus_inaugural, 
+                   remove_numbers = TRUE,
+                   remove_punct = TRUE,
+                   remove_symbols = TRUE)
 
-# need to read https://rdrr.io/github/quanteda/quanteda.sentiment/f/vignettes/sentiment_analysis.Rmd
+scTokens <- tokens_remove(scTokens, pattern = stopwords(source = "smart"))
+
+scTokens
+
+# find polarity of documents in a corpus
+textstat_polarity(scTokens, dd_geninq)
+
+# sort from negative to positive sentiment
+tmpsent <- textstat_polarity(data_corpus_inaugural, dd_geninq)
+tmpsent[order(tmpsent$sentiment),]
+
+# the same, but using data_dictionary_NRC
+dd_NRC <- data_dictionary_NRC
+polarity(dd_NRC) # what are current definitions of positive and negative
+polarity(dd_NRC) <- list(pos = c("positive", "joy", "trust"),
+                         neg = c("negative", "anger", "disgust", "fear"))
+tmpsent <- textstat_polarity(data_corpus_inaugural, dd_NRC)
+tmpsent[order(tmpsent$sentiment),]
