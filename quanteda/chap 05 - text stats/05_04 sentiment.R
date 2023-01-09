@@ -41,6 +41,7 @@ tmpsent <- textstat_polarity(data_corpus_inaugural, dd_geninq)
 tmpsent[order(tmpsent$sentiment),]
 
 # the same, but using data_dictionary_NRC
+names(data_dictionary_NRC) # list available sentiment classifications
 dd_NRC <- data_dictionary_NRC
 polarity(dd_NRC) # what are current definitions of positive and negative
 polarity(dd_NRC) <- list(pos = c("positive", "joy", "trust"),
