@@ -32,7 +32,8 @@ scTokens
 
 # Start Demonstration Here --------------
 # find polarity of documents in a corpus
-textstat_polarity(scTokens, dd_geninq)
+textstat_polarity(x = scTokens, 
+                  dictionary = dd_geninq)
 
 # Now jump to the top to understand how we got here ----------
 
