@@ -9,7 +9,7 @@ fileList <- dir(path = DataDirectory, pattern = ".*.txt")
 # readtext returns a data.frame
 aDataframe <- readtext(paste0(DataDirectory, fileList))
 
-# This code confirms the doc_id is unique --------
+# This code confirms the doc_id is unique 
 if (nrow(aDataframe) == length(unique(aDataframe$doc_id))) {
   message("doc_id is unique")
 } else {
