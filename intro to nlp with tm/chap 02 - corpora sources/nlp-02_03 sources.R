@@ -2,12 +2,15 @@ library(tm)
 library(readtext)
 
 DataDirectory <- "./Muhammad_Iqbal"
-fileList <- dir(path = DataDirectory, pattern = ".*.txt")
+fileList <- dir(path = DataDirectory, pattern = "*.txt")
+
+# getsources -----------
+getSources()
 
 # dataframesource ----------
 
 # readtext returns a data.frame
-aDataframe <- readtext(paste0(DataDirectory, fileList))
+aDataframe <- readtext(file.path(DataDirectory, fileList))
 
 # This code confirms the doc_id is unique 
 if (nrow(aDataframe) == length(unique(aDataframe$doc_id))) {
@@ -22,12 +25,12 @@ summary(aCorpus)
 
 # dirSource -----------
 
-docDir <- DirSource(directory = "./Muhammad_Iqbal",
-                    pattern = ".*.txt")
+docDir <- DirSource(directory = DataDirectory,
+                    pattern = "*.txt")
 
 newCorpus <- Corpus(docDir)
 
-summary(newVCorpus)
+summary(newCorpus)
 
 # URISource ----------
 
@@ -75,7 +78,6 @@ anXMLCorpus <- Corpus(XMLSource(x = "https://www.nasa.gov/rss/dyn/earth.rss",
 summary(anXMLCorpus)
 
 # zipsource -----------
-library(tm)
 
 aZipCorpus <- Corpus(ZipSource("./Muhammad_Iqbal/Archive.zip"))
 

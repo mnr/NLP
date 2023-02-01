@@ -8,7 +8,7 @@ editor: visual
 # Corpora and Their Origination
 
 | Corpora      | Description                               | Source                        |
-|:-----------------|:------------------------------|:----------------------|
+|:-------------|:------------------------------------------|:------------------------------|
 | Corpus       | A general purpose wrapper                 | Installed with `tm`           |
 | VCorpus      | A *volatile* corpus                       | Installed with `tm`           |
 | SimpleCorpus | A corpus optimized for text documents     | Installed with `tm`           |
@@ -18,7 +18,7 @@ editor: visual
 # Document Sources and Corpora
 
 | Source Type      | Description                                             | Source                   | Compatible with VCorpus and PCorpus | Compatible with SimpleCorpus |
-|:--------------|:--------------|:--------------|:-------------:|:-------------:|
+|:-----------------|:--------------------------------------------------------|:-------------------------|:-----------------------------------:|:----------------------------:|
 | DataframeSource  | Read a data.frame where each row represents a document. | Part of the `tm` package |                 yes                 |             yes              |
 | DirSource        | Read a directory containing one or more files.          | Part of the `tm` package |                 yes                 |             yes              |
 | URISource        | Read a list of URLs pointing to text documents.         | Part of the `tm` package |                 yes                 |              no              |
