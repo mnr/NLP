@@ -1,56 +1,58 @@
-# create useful metadata
+# how to create and use metadata
 library(tm) 
 library(readtext)
 
-
+# build a sample dataframe ------------
 DataDirectory <- "./Muhammad_Iqbal/"
 fileList <- dir(path = DataDirectory, pattern = "*.txt")
 
 # readtext returns a data.frame
 aDataframe <- readtext(file.path(DataDirectory, fileList))
 
-# find metadata and add to aDataframe
+# find metadata and add to aDataframe -------------
 # with stringr
 # install.packages("stringr")
 library(stringr)
+# aDFtags will contain a list of title, author, etc
+# str_match_all uses regular expressions
 aDFtags <- str_match_all(string = aDataframe$text,
-              pattern = "(Title:|Author:|Release Date:|Language:|Character set encoding:) (.+)\\R")
+              pattern = "(Title:|Author:|Release Date:|Language:|Character set encoding:) (.+)(?:\\[EBook.+\\])\\R")
+# then add information from aDFtags to dataframe
 for (eachRow in 1:nrow(aDataframe)) {
   for (eachListItem in 1:nrow(aDFtags[[1]])) {
     aDataframe[eachRow, aDFtags[[eachRow]][eachListItem, 2]] <-
       aDFtags[[eachRow]][eachListItem, 3]
-    # aDataFrame[ea]
   }
 }
 
+# use dataframe to build a VCorpus. Anything other than doc_id and text are stored as document metadata
 newVCorpus <- VCorpus(DataframeSource(aDataframe))
 
-# show the new metadata
+# show the new document level metadata
 meta(newVCorpus)
-meta(newVCorpus, type = "indexed")
+meta(newVCorpus, type = "local")
 
-# ...but not much corpus level data
+# ...but there isn't much corpus level data
 meta(newVCorpus, type = "corpus")
 
-# here's the structure:
-str(newVCorpus, max.level=1)
-str(newVCorpus$content, max.level=1)
-str(newVCorpus$meta, max.level=1)
-str(newVCorpus$dmeta, max.level=1)
+# so...add corpus metadata by hand
+meta(newVCorpus, type = "corpus", tag = "contributor") <- c("MNR","Jules")
+meta(newVCorpus, type = "corpus")
 
+# so...add document metadata by hand
+meta(newVCorpus, type = "local", tag = "reader") <- c("Azrah","Berezat")
+meta(newVCorpus, type = "local")
 
-# add metadata by hand
-meta(newVCorpus, type="corpus", tag="contributor") <- c("MNR","Jules")
-meta(newVCorpus, type="corpus")
-
-# assigning metadata
-meta(newVCorpus, type="local", tag="reader") <- c("Azrah","Berezat")
-meta(newVCorpus, type="local")
-
+# Where is all this stored?
+str(newVCorpus, max.level = 1) # shows class and overall structure
+str(newVCorpus$content, max.level = 1) # shows content
+str(newVCorpus$meta, max.level = 1) # shows corpus metadata
+str(newVCorpus$dmeta, max.level = 1) # shows document metadata
 
 # use metadata to sort which documents to work on
-meta(newVCorpus, type = "corpus")
+meta(newVCorpus, type = "corpus") # show corpus level metadata
+# ...then filter by specific metadata content
 meta(newVCorpus, type = "corpus", tag = "contributor") %in% "MNR"
 
-# dublincore
+# dublincore is a wrapper for suggested/additional metadata tags
 DublinCore(newVCorpus)
