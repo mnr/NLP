@@ -49,10 +49,9 @@ str(newVCorpus$content, max.level = 1) # shows content
 str(newVCorpus$meta, max.level = 1) # shows corpus metadata
 str(newVCorpus$dmeta, max.level = 1) # shows document metadata
 
-# use metadata to sort which documents to work on
-meta(newVCorpus, type = "corpus") # show corpus level metadata
-# ...then filter by specific metadata content
-meta(newVCorpus, type = "corpus", tag = "contributor") %in% "MNR"
-
 # dublincore is a wrapper for suggested/additional metadata tags
 DublinCore(newVCorpus)
+
+# save this for the next session
+saveRDS(newVCorpus, file = "newVCorpus.RDS")
+
