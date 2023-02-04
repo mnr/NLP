@@ -17,7 +17,7 @@ DTmatrix <- DocumentTermMatrix(newVCorpus,
 
 inspect(DTmatrix)
 
-# with weighting
+# with tf-idf weighting
 DTmatrix <- DocumentTermMatrix(newVCorpus, 
                                control = list(stopwords = TRUE, 
                                               removePunctuation = TRUE,
@@ -31,6 +31,19 @@ inspect(DTmatrix)
 
 # weighting options
 # weightTf: term frequency. default. Does nothing since dtm is already sorted by term frequency
-# weightTfIdf: inverse document frequency
-# weightBin: logical - but?
-# weightSmart:
+# weightTfIdf: term frequency - inverse document frequency
+# weightBin: logical. Does a term appear in a document
+
+# weightSMART: 60 combinations of tf, df, and normalization  
+DTmatrix <- DocumentTermMatrix(newVCorpus, 
+                               control = list(stopwords = TRUE, 
+                                              removePunctuation = TRUE,
+                                              removeNumbers = TRUE,
+                                              stemming = TRUE,
+                                              weighting = function(x)
+                                                weightSMART(x, 
+                                                            spec = "atb",
+                                                            control = list(alpha = 3)))
+)
+
+inspect(DTmatrix)
