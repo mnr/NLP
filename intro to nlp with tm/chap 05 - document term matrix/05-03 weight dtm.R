@@ -1,11 +1,8 @@
-# what is a DTM?
+# weighting a DTM
 library(tm)
 
 # Pull in a sample corpus
 newVCorpus <- readRDS("newVCorpus.RDS")
-
-# create a document term matrix
-DTmatrix <- DocumentTermMatrix(newVCorpus)
 
 # create a dtm
 DTmatrix <- DocumentTermMatrix(newVCorpus, 
@@ -35,6 +32,8 @@ inspect(DTmatrix)
 # weightBin: logical. Does a term appear in a document
 
 # weightSMART: 60 combinations of tf, df, and normalization  
+?weightSMART
+
 DTmatrix <- DocumentTermMatrix(newVCorpus, 
                                control = list(stopwords = TRUE, 
                                               removePunctuation = TRUE,
