@@ -28,5 +28,6 @@ termFreq(newVCorpus[[1]],
 
 findFreqTerms(DTmatrix, lowfreq = 100, highfreq = Inf)
 
-findMostFreqTerms(DTmatrix)
+findMostFreqTerms(DTmatrix, n = 10)
+
 
