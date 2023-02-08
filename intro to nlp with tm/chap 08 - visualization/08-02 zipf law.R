@@ -1,0 +1,1 @@
+# plotting zipfs law
