@@ -32,7 +32,7 @@ buildPoetCorpus <- merge(x = buildPoetCorpus,
                          y = gb_poets, 
                          by.x = "doc_id",
                          by.y = "gutenberg_id")
-poetCorpus <- VCorpus(DataframeSource(buildPoetCorpus))
+poetCorpus <- Corpus(DataframeSource(buildPoetCorpus))
 # summary(poetCorpus)
 # meta(poetCorpus)
 
@@ -50,7 +50,16 @@ poetClust <- hclust(dist(poetDTM))
 poetClust
 plot(poetClust) # take a look at the graph
 
-# why are these two clustered together?
+# what just happened?
+dist(poetDTM) # calculates "distance" between rows.
+
+
+# Do the clusters make sense?
+# Let's take a look at the titles
 buildPoetCorpus[buildPoetCorpus$doc_id %in% c(13223,13224), "title"]
 buildPoetCorpus[buildPoetCorpus$doc_id %in% c(4800, 13310), "title"]
 buildPoetCorpus[buildPoetCorpus$doc_id %in% c(2039,15390), "title"]
+
+# save poetDTM for next session
+saveRDS(poetDTM, file = "poetDTM.RDS")
+saveRDS(poetCorpus, file = "poetCorpus.RDS")
