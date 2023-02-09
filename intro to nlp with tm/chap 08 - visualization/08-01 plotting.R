@@ -1,1 +1,3 @@
 # plotting nlp
+
+barplot()
