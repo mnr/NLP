@@ -1,1 +1,0 @@
-# using the AFINN Lexicon
