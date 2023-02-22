@@ -16,3 +16,18 @@ get_sentiment(smallText, method = "nrc")
 
 # I'd rather use the means of all dictionary values
 rowMeans(get_nrc_sentiment(smallText))
+
+# a more sophisticated example --------
+poetCorpus <- readRDS("poetCorpus.RDS")
+library(tm)
+
+# for example ------------
+get_nrc_sentiment(poetCorpus$content[1])
+
+# use tm_map to apply get_nrc_sentiment to all documents in corpus
+poet_tmp <- tm_map(poetCorpus, FUN = get_nrc_sentiment)
+# move content to a data.frame
+poetDF <- poet_tmp$content
+# add titles to each row in the data.frame ------------
+poetDF$titles <- poet_tmp$dmeta["title"]
+# now - which is the angriest?

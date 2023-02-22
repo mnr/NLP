@@ -2,18 +2,20 @@
 
 # Note: you'll need to change the working directory
 # for example...
-# setwd("where is Muhammad_Iqbal?")
+# setwd("Exercise Files/poetry")
+
+# Compare different NLP tools
+# task: create a corpus without numbers
 
 # Base R with tm ---------
 library(tm)
 
-newSimpleCorpus <-
-  SimpleCorpus(DirSource(directory = "Muhammad_Iqbal",
-                         pattern = "./*txt"))
+newCorpus <- Corpus(DirSource(pattern = "./*txt"))
 
-newSimpleCorpus[[2]] <- removeNumbers(newSimpleCorpus[[2]])
+noNumberCorpus <- tm_map(newCorpus, removeNumbers)
 
-summary(newSimpleCorpus)
+newCorpus[[1]] # with numbers
+noNumberCorpus[[1]] # without numbers
 
 # Quanteda --------
 
@@ -23,28 +25,22 @@ summary(newSimpleCorpus)
 library(quanteda)
 library(readtext)
 
-textDF <- readtext("./Muhammad_Iqbal/*.txt",
-                   docvarsfrom = "filenames")
+textDF <- readtext("*.txt", docvarsfrom = "filenames")
 
 quantCorpus <- corpus(textDF)
 
-tokenQuantCorpus <- tokens(quantCorpus)
 noNumQuantCorpus <- tokens(quantCorpus, remove_numbers = TRUE)
 
-summary(tokenQuantCorpus)
-summary(noNumQuantCorpus)
+noNumQuantCorpus[[1]]
 
 # tidytext ----------
+library(tidyverse)tidytext
 library(tidytext)
-library(dplyr)
 
-newTidyNLP <- list.files("Muhammad_Iqbal", pattern = "*txt")[1] %>%
-  readLines() 
+allPoetry <- list.files( pattern = "*txt")
 
-%>%
-  data.frame() %>%
-  rename_with(.cols = 1, ~ "theText") %>%
-  unnest_tokens(eachWord, theText) %>%
-  filter(is.na(as.numeric(eachWord)))
+newTidyNLP <-  map_df(allPoetry, ~ data_frame(txt = read_file(.x))) %>%
+  unnest_tokens(word, txt) %>%
+  filter(is.na(as.numeric(word)))
 
-View(newTidyNLP)
+print(newTidyNLP, n=100)

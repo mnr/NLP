@@ -2,39 +2,7 @@
 
 library(tm)
 
-# build up a library of poetry
-# install.packages("gutenbergr")
-library(gutenbergr)
-gb_poets <- gutenberg_metadata[
-  gutenberg_metadata$gutenberg_bookshelf %in% "Poetry" ,]
 
-# initialize data frame and download process -------
-buildPoetCorpus <- data.frame()
-pb <- txtProgressBar(min = 0,
-                     initial = 0,
-                     max = nrow(gb_poets),
-                     style = 3)
-
-for (poetID in gb_poets$gutenberg_id) { 
-  muchPoetry <- gutenberg_download(poetID, 
-                                   verbose = FALSE,
-                                   strip = TRUE)
-  poetText <- data.frame(
-    doc_id = poetID,
-    text = iconv(paste(muchPoetry$text, collapse = " "),
-                 to = "UTF-8")
-  )
-  buildPoetCorpus <- rbind(buildPoetCorpus,poetText)
-  setTxtProgressBar(pb, nrow(buildPoetCorpus))
-}
-close(pb)
-buildPoetCorpus <- merge(x = buildPoetCorpus, 
-                         y = gb_poets, 
-                         by.x = "doc_id",
-                         by.y = "gutenberg_id")
-poetCorpus <- Corpus(DataframeSource(buildPoetCorpus))
-# summary(poetCorpus)
-# meta(poetCorpus)
 
 # create a DTM from the corpus
 poetDTM <- DocumentTermMatrix(poetCorpus,
