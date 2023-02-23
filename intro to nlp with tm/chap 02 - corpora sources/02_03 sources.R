@@ -72,8 +72,8 @@ anXMLCorpus <- Corpus(XMLSource(x = "https://www.nasa.gov/rss/dyn/earth.rss",
 summary(anXMLCorpus)
 
 # zipsource -----------
-THIS DOESN"T WORK YET"
-aZipCorpus <- Corpus(ZipSource("../poetry.zip"))
+# files must be at root level of archive
+aZipCorpus <- Corpus(ZipSource(zipfile = "../Archive.zip"))
 
 summary(aZipCorpus)
 
