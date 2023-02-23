@@ -4,7 +4,7 @@
 library(quanteda)
 
 # retrieve sample corpus
-sampleCorpus <- readRDS("quanteda/sampleCorpus.RDS")
+sampleCorpus <- readRDS("sampleCorpus.RDS")
 
 # subsetting via corpus_subset ----------
 # list documents with someInfo starting with the letter "T"

@@ -6,7 +6,7 @@ library(quanteda)
 # ...or with meta
 
 # retrieve sample corpus
-sampleCorpus <- readRDS("quanteda/sampleCorpus.RDS")
+sampleCorpus <- readRDS("sampleCorpus.RDS")
 
 summary(sampleCorpus)
 

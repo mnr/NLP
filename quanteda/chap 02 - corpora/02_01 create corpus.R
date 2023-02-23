@@ -32,4 +32,4 @@ summary(myCorpus)
 # notice how extra data.frame columns are added as extra variables
 
 # appendix: This is how I saved example file
-saveRDS(myCorpus, file = "quanteda/sampleCorpus.RDS")
+saveRDS(myCorpus, file = "sampleCorpus.RDS")
