@@ -2,53 +2,46 @@ library(tm)
 
 # corpus --------
 
-docDir <- DirSource(directory = "./Muhammad_Iqbal",
-                    pattern = ".*.txt")
-
-newCorpus <- Corpus(docDir)
+newCorpus <- Corpus(DirSource(pattern = ".*.txt"))
 
 # show structure of the new corpus
 str(newCorpus)
 
 # Here is the Corpus command with all arguments defined --------
 
-newVCorpus <- Corpus(
-  x = DirSource(directory = "./Muhammad_Iqbal/", 
-                pattern = ".*.txt"),
-  readerControl = list(reader = readDataframe, 
-                       language = "en")
-)
+newCorpus <- Corpus(x = DirSource(directory = "./",
+                                   pattern = ".*.txt"),
+                     readerControl = list(reader = readPlain, 
+                                          language = "en")
+                     )
 
 # VCorpus ---------
+# volatile corpus
 # list the files in the local directory
 list.files()
 
-docDir <- DirSource(directory = "./Muhammad_Iqbal",
-                    pattern = ".*.txt")
+newVCorpus <- VCorpus(DirSource(pattern = ".*.txt"))
 
-newVCorpus <- VCorpus(docDir)
-
+# where is a VCorpus stored?
 # another list to compare with the above
-list.files()
+list.files() # not here
 
 # list objects in memory
-ls()
+ls() # there it is
 
 # SimpleCorpus --------
 docDir <- DirSource(directory = "./Muhammad_Iqbal",
                     pattern = ".*.txt")
 
-newSimpleCorpus <- SimpleCorpus(docDir)
+newSimpleCorpus <- SimpleCorpus(DirSource(pattern = ".*.txt"))
 
 summary(newSimpleCorpus)
 
 # PCorpus ----------
-docDir <- DirSource(directory = "./Muhammad_Iqbal",
-                    pattern = ".*.txt")
 
-newPCorpus <- PCorpus(docDir, 
+newPCorpus <- PCorpus(DirSource(pattern = "*.txt"), 
                       dbControl = (list(dbName = "myPCorpus.rds", 
                                         dbType = "RDS")))
 
-list.files()
+list.files() # look! there it is!
 inspect(newPCorpus)
