@@ -7,7 +7,9 @@ getSources()
 # dataframesource ----------
 
 # readtext returns a data.frame
-aDataframe <- readtext(list.files(pattern = "*.txt"))
+aDataframe <- readtext(list.files(path = "poetry", 
+                                  pattern = "*txt",
+                                  full.names = TRUE))
 
 # This code confirms the doc_id is unique 
 if (nrow(aDataframe) == length(unique(aDataframe$doc_id))) {
@@ -22,7 +24,8 @@ summary(aCorpus)
 
 # dirSource -----------
 
-newCorpus <- Corpus(DirSource(pattern = "*.txt"))
+newCorpus <- Corpus(DirSource(directory = "poetry",
+                              pattern = "*.txt"))
 
 summary(newCorpus)
 
@@ -75,7 +78,7 @@ summary(anXMLCorpus)
 
 # zipsource -----------
 # files must be at root level of archive
-aZipCorpus <- Corpus(ZipSource(zipfile = "../Archive.zip"))
+aZipCorpus <- Corpus(ZipSource(zipfile = "Archive.zip"))
 
 summary(aZipCorpus)
 

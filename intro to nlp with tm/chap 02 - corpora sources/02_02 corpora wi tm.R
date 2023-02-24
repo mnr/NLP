@@ -2,14 +2,15 @@ library(tm)
 
 # corpus --------
 
-newCorpus <- Corpus(DirSource(pattern = ".*.txt"))
+newCorpus <- Corpus(DirSource(directory = "poetry",
+                              pattern = "*.txt"))
 
 # show structure of the new corpus
 str(newCorpus)
 
 # Here is the Corpus command with all arguments defined --------
 
-newCorpus <- Corpus(x = DirSource(directory = "./",
+newCorpus <- Corpus(x = DirSource(directory = "poetry",
                                    pattern = ".*.txt"),
                      readerControl = list(reader = readPlain, 
                                           language = "en")
@@ -20,7 +21,8 @@ newCorpus <- Corpus(x = DirSource(directory = "./",
 # list the files in the local directory
 list.files()
 
-newVCorpus <- VCorpus(DirSource(pattern = ".*.txt"))
+newVCorpus <- VCorpus(DirSource(directory = "poetry",
+                                pattern = "*.txt"))
 
 # where is a VCorpus stored?
 # another list to compare with the above
@@ -33,7 +35,8 @@ ls() # there it is
 # Optimized for common usage. 
 # punctuation is stripped
 # only DataframeSource, DirSource and VectorSource are supported
-newSimpleCorpus <- SimpleCorpus(DirSource(pattern = ".*.txt"))
+newSimpleCorpus <- SimpleCorpus(DirSource(directory = "poetry",
+                                          pattern = "*.txt"))
 
 summary(newSimpleCorpus)
 
@@ -41,7 +44,8 @@ summary(newSimpleCorpus)
 # permanent corpus
 # not limited by volatile memory
 # but...you can't (easily) access it after a session ends
-newPCorpus <- PCorpus(DirSource(pattern = "*.txt"), 
+newPCorpus <- PCorpus(DirSource(directory = "poetry", 
+                                pattern = "*.txt"),
                       dbControl = (list(dbName = "myPCorpus.rds", 
                                         dbType = "RDS")))
 

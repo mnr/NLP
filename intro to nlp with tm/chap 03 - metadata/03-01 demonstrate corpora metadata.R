@@ -3,9 +3,8 @@ library(tm)
 # how to list metadata ---------
 
 # create a demo corpus ------------
-docDir <- DirSource(directory = "./Muhammad_Iqbal/",
-                    pattern = "*.txt")
-newVCorpus <- VCorpus(docDir)
+newVCorpus <- VCorpus(DirSource(directory = "poetry",
+                                pattern = "*.txt"))
 
 # show corpus and document metadata -------
 meta(newVCorpus, type = "corpus")

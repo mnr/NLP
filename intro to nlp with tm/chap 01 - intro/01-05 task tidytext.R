@@ -11,16 +11,14 @@
 library(tidyverse)
 library(tidytext)
 
-
-allPoetry <- list.files( pattern = "*txt")
-
-poetTidy <-  map_df(allPoetry, ~ data_frame(txt = read_file(.x))) %>%
+list.files(path = "poetry", pattern = "*txt",
+                        full.names = TRUE) %>%
+  map_df( ~ data_frame(txt = read_file(.x))) %>%
   unnest_tokens(word, txt) %>%
   filter(is.na(as.numeric(word))) %>%
   anti_join(stop_words) %>%
-  count(word, sort = TRUE)
-
-print(poetTidy, n=10)
+  count(word, sort = TRUE) %>%
+  head(n=10)
 
 # notes:
 # unnest_tokens strips punctuation, converts to lowercase

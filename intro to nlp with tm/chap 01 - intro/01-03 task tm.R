@@ -10,7 +10,8 @@
 # Base R with tm ---------
 library(tm)
 
-topPoetryTerms <- Corpus(DirSource(pattern = "./*txt")) |>
+topPoetryTerms <- Corpus(DirSource(directory = "poetry",
+                                   pattern = "*.txt")) |>
   DocumentTermMatrix( control = list(tolower = TRUE,
                                     removePunctuation = TRUE, 
                                     stopwords = TRUE,

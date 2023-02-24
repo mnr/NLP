@@ -16,7 +16,7 @@ library(quanteda)
 library(readtext)
 
 # first, using |> -------------
-topPoetryFeatures <- readtext("*.txt", docvarsfrom = "filenames") |>
+topPoetryFeatures <- readtext("poetry/*.txt", docvarsfrom = "filenames") |>
   corpus() |>
   tokens(remove_numbers = TRUE, remove_punct = TRUE) |>
   tokens_remove(pattern = stopwords("english")) |> 
@@ -27,7 +27,7 @@ topPoetryFeatures <- readtext("*.txt", docvarsfrom = "filenames") |>
 topPoetryFeatures
 
 # second, what code looks like without |> ---------
-textDF <- readtext("*.txt", docvarsfrom = "filenames")
+textDF <- readtext("poetry/*.txt", docvarsfrom = "filenames")
 
 poetCorpus <- corpus(textDF)
 
