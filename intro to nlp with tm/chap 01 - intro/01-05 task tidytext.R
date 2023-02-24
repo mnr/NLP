@@ -2,7 +2,7 @@
 
 # Note: you'll need to change the working directory
 # for example...
-# setwd("Exercise Files/poetry")
+# setwd("Exercise Files")
 
 # Compare different NLP tools
 # task: what are most popular words used in poetry?
