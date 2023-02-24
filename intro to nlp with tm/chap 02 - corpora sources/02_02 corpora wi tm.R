@@ -7,14 +7,7 @@ newCorpus <- Corpus(DirSource(directory = "poetry",
 
 # show structure of the new corpus
 str(newCorpus)
-
-# Here is the Corpus command with all arguments defined --------
-
-newCorpus <- Corpus(x = DirSource(directory = "poetry",
-                                   pattern = ".*.txt"),
-                     readerControl = list(reader = readPlain, 
-                                          language = "en")
-                     )
+class(newCorpus)
 
 # VCorpus ---------
 # volatile corpus
