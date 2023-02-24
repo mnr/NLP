@@ -1,25 +1,19 @@
 library(tm)
 
 # setup for demonstration -------
-docDir <- DirSource(directory = "./Muhammad_Iqbal",
-                    pattern = ".*.txt")
-
-A_Corpus <- Corpus(docDir)
-vectorOfText <- c("twas brillig and the slithey toves", 
-                  "did gyre and gimble in the wabes")
-names(vectorOfText) <- c("firstLine", "secondLine")
-
-B_Corpus <- Corpus(VectorSource(vectorOfText))
+newVCorpus <- VCorpus(DirSource(pattern = ".*.txt"))
+B_VCorpus <- VCorpus(DirSource(pattern = ".*.txt"))
 
 # combine corpora ---------
-combinedCorpora <- c(A_Corpus, B_Corpus)
+# note: "c" doesn't work with simpleCorpus. 
+# c(simpleCorpus, anotherCorpus) is converted to a list
+combinedCorpora <- c(newVCorpus, B_VCorpus)
 summary(combinedCorpora)
 
 # tm_filter and tm_index ---------
-data("acq") # a sample VCorpus included with tm
 
 # create a function -----
-searchForCTS <- function(x) {
+searchForThis <- function(x) {
   grepl("Computer Terminal Systems", x)
 }
 searchForCTS(c("This isnt CTS", "Computer Terminal Systems"))

@@ -39,7 +39,9 @@ vectorOfText <- c("twas brillig and the slithey toves",
                   "did gyre and gimble in the wabes")
 names(vectorOfText) <- c("firstLine", "secondLine")
 
-aCorpus <- Corpus(VectorSource(vectorOfText))
+aCorpus <- VCorpus(VectorSource(vectorOfText))
+# note: Rstudio lists as list of 2, but...
+# class(aCorpus) == "VCorpus" "Corpus"
 
 summary(aCorpus)
 

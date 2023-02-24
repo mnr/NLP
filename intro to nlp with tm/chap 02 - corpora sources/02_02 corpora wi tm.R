@@ -30,15 +30,17 @@ list.files() # not here
 ls() # there it is
 
 # SimpleCorpus --------
-docDir <- DirSource(directory = "./Muhammad_Iqbal",
-                    pattern = ".*.txt")
-
+# Optimized for common usage. 
+# punctuation is stripped
+# only DataframeSource, DirSource and VectorSource are supported
 newSimpleCorpus <- SimpleCorpus(DirSource(pattern = ".*.txt"))
 
 summary(newSimpleCorpus)
 
 # PCorpus ----------
-
+# permanent corpus
+# not limited by volatile memory
+# but...you can't (easily) access it after a session ends
 newPCorpus <- PCorpus(DirSource(pattern = "*.txt"), 
                       dbControl = (list(dbName = "myPCorpus.rds", 
                                         dbType = "RDS")))
