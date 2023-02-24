@@ -1,31 +1,29 @@
 library(tm)
 
 # setup for demonstration -------
+simpCorp <- readRDS("../poetCorpus.RDS")
 newVCorpus <- VCorpus(DirSource(pattern = ".*.txt"))
-B_VCorpus <- VCorpus(DirSource(pattern = ".*.txt"))
 
 # combine corpora ---------
-# note: "c" doesn't work with simpleCorpus. 
-# c(simpleCorpus, anotherCorpus) is converted to a list
-combinedCorpora <- c(newVCorpus, B_VCorpus)
+# note: "c" will produce a class like the class of the first object
+# simpleCorpus sometimes shows up as a list
+# c(simpleCorpus, aVCorpus) is converted to a list
+# c( aVCorpus, simpleCorpus) results in a VCorpus
+combinedCorpora <- c(newVCorpus, simpCorp)
+combinedCorpora <- c(simpCorp, newVCorpus)
 summary(combinedCorpora)
 
-# tm_filter and tm_index ---------
+# tm_filter  ---------
 
-# create a function -----
-searchForThis <- function(x) {
-  grepl("Computer Terminal Systems", x)
-}
-searchForCTS(c("This isnt CTS", "Computer Terminal Systems"))
+# returns a corpus of documents matching filter
+filteredCorpus <- tm_filter(simpCorp, 
+                           FUN = function(x) grepl("Will not", x))
+summary(filteredCorpus)
 
-# Note: content() is supplied by NLP library and returns
-# content of a corpus
-tm_filter(acq, 
-          FUN = function(x) grepl("Computer Terminal Systems", content(x)))
+# tm_index --------
+tm_index(simpCorp, 
+         FUN = function(x) grepl("Will not", x))
 
-tm_index(acq, 
-         FUN = function(x) grepl("Computer Terminal Systems", x))
-
-acq[tm_index(acq, 
-             FUN = function(x) grepl("Computer Terminal Systems", x))
+filteredCorpus <- simpCorp[tm_index(simpCorp, 
+             FUN = function(x) grepl("Will not", x))
 ]
