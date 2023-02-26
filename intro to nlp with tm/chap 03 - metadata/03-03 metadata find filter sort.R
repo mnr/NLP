@@ -1,4 +1,4 @@
-# create useful metadata
+# find and filter on metadata
 library(tm, quietly = TRUE) 
 
 # retrieve corpus from previous session --------
