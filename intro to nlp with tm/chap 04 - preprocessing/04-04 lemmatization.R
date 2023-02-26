@@ -26,11 +26,17 @@
 
 library(textstem)
 
-sampleText <- "You will rejoice to hear that no disaster has accompanied the
-commencement of an enterprise which you have regarded with such evil
-forebodings. I arrived here yesterday, and my first task is to assure
-my dear sister of my welfare and increasing confidence in the success
-of my undertaking."
+sampleText <- "Before the Altar, bowed, he stands
+          With empty hands;
+          Upon it perfumed offerings burn
+          Wreathing with smoke the sacrificial urn.
+          Not one of all these has he given,
+          No flame of his has leapt to Heaven
+          Firesouled, vermilion-hearted,
+          Forked, and darted,
+          Consuming what a few spare pence
+          Have cheaply bought, to fling from hence
+          In idly-asked petition."
 
 lemma_dictionary <- make_lemma_dictionary(sampleText, engine = 'hunspell')
 
