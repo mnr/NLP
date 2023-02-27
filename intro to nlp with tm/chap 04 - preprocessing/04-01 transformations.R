@@ -16,7 +16,7 @@ stripWhitespace(newVCorpus[[1]]$content)
 
 # Remove numbers with removeNumbers
 # Before removing numbers
-head(newVCorpus[[1]]$content)
+newVCorpus[[1]]$content
 
 # After removing numbers
 removeNumbers(newVCorpus[[1]]$content)

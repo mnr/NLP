@@ -3,6 +3,20 @@
 # install.packages("textstem")
 library(textstem)
 
+# some text to experiment with
+myText <- "Before the Altar, bowed, he stands
+          With empty hands;
+          Upon it perfumed offerings burn
+          Wreathing with smoke the sacrificial urn.
+          Not one of all these has he given,
+          No flame of his has leapt to Heaven
+          Firesouled, vermilion-hearted,
+          Forked, and darted,
+          Consuming what a few spare pence
+          Have cheaply bought, to fling from hence
+          In idly-asked petition."
+
+
 # Lemmatization
 # Synonyms are different words that mean the same thing. For example; “Ball,”
 # “orb,” “globe,” and “sphere” indicate a similar object. Indicating the
@@ -33,9 +47,6 @@ library(textstem)
 # lemmatizing, words are replaced. With stemming, words are shortened. Both
 # methods have their advantages.
 
-lemma_dictionary <- make_lemma_dictionary(sampleText, engine = 'hunspell')
-lemma_dictionary
-
 # The Lemma Dictionary 
 # The result is a printout of lemma_dictionary which is
 # nothing more than a data.frame. It has two columns: token and lemma. token
@@ -46,31 +57,10 @@ lemma_dictionary
 # words to the dictionary would be a simple case of adding a matching data.frame
 # with rbind( ).
 
-sampleText <- "Before the Altar, bowed, he stands
-          With empty hands;
-          Upon it perfumed offerings burn
-          Wreathing with smoke the sacrificial urn.
-          Not one of all these has he given,
-          No flame of his has leapt to Heaven
-          Firesouled, vermilion-hearted,
-          Forked, and darted,
-          Consuming what a few spare pence
-          Have cheaply bought, to fling from hence
-          In idly-asked petition."
+lemma_dictionary <- make_lemma_dictionary(myText, engine = 'hunspell')
 
-lemma_dictionary <- make_lemma_dictionary(sampleText, engine = 'hunspell')
+lemma_dictionary
 
-lemmatize_strings(sampleText, dictionary = lemma_dictionary)
-
-# use diffr to show side by side differences
-# install.packages("diffr")
-library(diffr)
-
-lemma_dictionary <- make_lemma_dictionary(readLines("poetry/poetry_1020.txt"), 
-                                          engine = "hunspell")
-
-lemmFile <- lemmatize_strings(readLines("poetry/poetry_1020.txt"),
-                              dictionary = lemma_dictionary)
-writeLines(lemmFile, "lemm_output.txt")
-diffr("poetry/poetry_1020.txt", "lemm_output.txt")
+lemmatize_strings(myText, dictionary = lemma_dictionary)
+stemDocument(myText)
 
