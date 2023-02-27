@@ -1,5 +1,8 @@
 # Lemmatization and Stemming
 
+# install.packages("textstem")
+library(textstem)
+
 # Lemmatization
 # Synonyms are different words that mean the same thing. For example; “Ball,”
 # “orb,” “globe,” and “sphere” indicate a similar object. Indicating the
@@ -24,24 +27,6 @@
 ## udpipe - Tokenization, Parts of Speech Tagging, Lemmatization, and Dependency Parsing with the 'UDPipe' 'NLP' Toolkit 
 ## koRpus provides access to treetagger
 
-library(textstem)
-
-sampleText <- "Before the Altar, bowed, he stands
-          With empty hands;
-          Upon it perfumed offerings burn
-          Wreathing with smoke the sacrificial urn.
-          Not one of all these has he given,
-          No flame of his has leapt to Heaven
-          Firesouled, vermilion-hearted,
-          Forked, and darted,
-          Consuming what a few spare pence
-          Have cheaply bought, to fling from hence
-          In idly-asked petition."
-
-lemma_dictionary <- make_lemma_dictionary(sampleText, engine = 'hunspell')
-
-lemmatize_strings(sampleText, dictionary = lemma_dictionary)
-
 # Lemmatize and Stemming
 
 # Compare the original text to the effects of lemmatizing and stemming. With
@@ -60,3 +45,32 @@ lemma_dictionary
 # to lemma_dictionary. These are the words which have been replaced. Adding
 # words to the dictionary would be a simple case of adding a matching data.frame
 # with rbind( ).
+
+sampleText <- "Before the Altar, bowed, he stands
+          With empty hands;
+          Upon it perfumed offerings burn
+          Wreathing with smoke the sacrificial urn.
+          Not one of all these has he given,
+          No flame of his has leapt to Heaven
+          Firesouled, vermilion-hearted,
+          Forked, and darted,
+          Consuming what a few spare pence
+          Have cheaply bought, to fling from hence
+          In idly-asked petition."
+
+lemma_dictionary <- make_lemma_dictionary(sampleText, engine = 'hunspell')
+
+lemmatize_strings(sampleText, dictionary = lemma_dictionary)
+
+# use diffr to show side by side differences
+# install.packages("diffr")
+library(diffr)
+
+lemma_dictionary <- make_lemma_dictionary(readLines("poetry/poetry_1020.txt"), 
+                                          engine = "hunspell")
+
+lemmFile <- lemmatize_strings(readLines("poetry/poetry_1020.txt"),
+                              dictionary = lemma_dictionary)
+writeLines(lemmFile, "lemm_output.txt")
+diffr("poetry/poetry_1020.txt", "lemm_output.txt")
+
