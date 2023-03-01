@@ -2,10 +2,10 @@
 library(tm)
 
 # Pull in a sample corpus
-newVCorpus <- readRDS("newVCorpus.RDS")
+poetCorpus <- readRDS("poetCorpus.RDS")
 
 # create a document term matrix
-DTmatrix <- DocumentTermMatrix(newVCorpus, 
+DTmatrix <- DocumentTermMatrix(poetCorpus, 
                                control = list(stopwords = TRUE, 
                                               removePunctuation = TRUE,
                                               removeNumbers = TRUE,
@@ -18,7 +18,7 @@ nTerms(DTmatrix) # number of terms
 Terms(DTmatrix)
 
 # term frequency
-termFreq(newVCorpus[[1]],
+termFreq(poetCorpus[[1]],
          control = list(removePunctuation = TRUE,
                         removeNumbers = TRUE,
                         stopwords = TRUE,

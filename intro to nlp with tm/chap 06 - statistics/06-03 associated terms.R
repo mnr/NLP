@@ -1,4 +1,4 @@
-# Hierarchical Clustering with NLP
+# associated terms NLP
 
 library(tm)
 
@@ -21,7 +21,7 @@ poetCorpus_child <- tm_filter(
   FUN = function(x)
     grepl("child", x)
 )
-meta(poetCorpus_child)$title
+meta(poetCorpus_child, type = "indexed", tag = "title")
 
 # are there other interesting terms?
 findMostFreqTerms(poetDTM)

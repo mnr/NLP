@@ -1,8 +1,7 @@
 # Hierarchical Clustering with NLP
 
 library(tm)
-
-
+poetCorpus <- readRDS("poetCorpus.RDS")
 
 # create a DTM from the corpus
 poetDTM <- DocumentTermMatrix(poetCorpus,
@@ -21,12 +20,17 @@ plot(poetClust) # take a look at the graph
 # what just happened?
 dist(poetDTM) # calculates "distance" between rows.
 
-
 # Do the clusters make sense?
 # Let's take a look at the titles
-buildPoetCorpus[buildPoetCorpus$doc_id %in% c(13223,13224), "title"]
-buildPoetCorpus[buildPoetCorpus$doc_id %in% c(4800, 13310), "title"]
-buildPoetCorpus[buildPoetCorpus$doc_id %in% c(2039,15390), "title"]
+
+getTitle <- function(docid) {
+  meta(poetCorpus, type = "indexed", tag = "title") |>
+    subset(Docs(poetDTM) %in% docid)
+}
+
+getTitle(c(13223, 13224))
+getTitle(c(4800,13310))
+getTitle(c(2039,15390))
 
 # save poetDTM for next session
 saveRDS(poetDTM, file = "poetDTM.RDS")
