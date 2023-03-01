@@ -20,7 +20,7 @@ inspect(DTmatrix)
 # weightBin: logical. Does a term appear in a document
 
 # with tf-idf weighting
-DTmatrix <- DocumentTermMatrix(newVCorpus, 
+DTmatrix <- DocumentTermMatrix(poetCorpus, 
                                control = list(stopwords = TRUE, 
                                               removePunctuation = TRUE,
                                               removeNumbers = TRUE,
@@ -35,7 +35,7 @@ inspect(DTmatrix)
 # weightSMART: 60 combinations of tf, df, and normalization  
 ?weightSMART
 
-DTmatrix <- DocumentTermMatrix(newVCorpus, 
+DTmatrix <- DocumentTermMatrix(poetCorpus, 
                                control = list(stopwords = TRUE, 
                                               removePunctuation = TRUE,
                                               removeNumbers = TRUE,

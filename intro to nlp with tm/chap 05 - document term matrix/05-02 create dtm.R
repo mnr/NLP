@@ -1,28 +1,25 @@
-# what is a DTM?
+# DTM options
 library(tm)
 
 # Pull in a sample corpus
 poetCorpus <- readRDS("poetCorpus.RDS")
 
-# create a document term matrix
-DTmatrix <- DocumentTermMatrix(poetCorpus)
-inspect(DTmatrix)
-
 # control allows the use of transforms at creation of dtm
 # look at termfreq for the list
-DTmatrix <- DocumentTermMatrix(newVCorpus, 
+
+DTmatrix <- DocumentTermMatrix(poetCorpus, 
                                control = list(tolower = TRUE,
                                               language = "en",
+                                              tokenizer = "Boost",
                                               stopwords = TRUE, 
                                               removePunctuation = TRUE,
                                               removeNumbers = TRUE,
-                                              stemming = TRUE,
-                                              bounds = list( #freq(min,max)
-                                                local = c(10,201)
-                                              ),
-                                              wordLengths = list(10,50) # characters(min,max)
+                                              stemming = TRUE
+                                              # dictionary = c("love", "hate", "child")
+                                              # bounds = list( local = c(60,201))
+                                              # wordLengths = c(10,50)
                                               )
                                )
 
 inspect(DTmatrix)
-
+Terms(DTmatrix)
