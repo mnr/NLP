@@ -14,10 +14,10 @@ DTmatrix <- DocumentTermMatrix(poetCorpus,
 inspect(DTmatrix)
 
 # create a term document matrix
-TDmatrix <- TermDocumentMatrix(newVCorpus, 
+TDmatrix <- TermDocumentMatrix(poetCorpus, 
                                control = list(stopwords = TRUE, 
                                               removePunctuation = TRUE,
                                               removeNumbers = TRUE,
                                               stemming = TRUE))
-# what does the DTM look like?
+# what does the TDM look like?
 inspect(TDmatrix)
