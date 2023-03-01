@@ -32,6 +32,3 @@ getTitle(c(13223, 13224))
 getTitle(c(4800,13310))
 getTitle(c(2039,15390))
 
-# save poetDTM for next session
-saveRDS(poetDTM, file = "poetDTM.RDS")
-saveRDS(poetCorpus, file = "poetCorpus.RDS")
