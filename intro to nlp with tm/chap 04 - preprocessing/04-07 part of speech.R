@@ -8,6 +8,8 @@ udpipeResults <- udpipe(x = poetCorpus[[1]]$content, object = "english")
 
 udpipeResults
 
+# upos defined at https://universaldependencies.org/u/pos/index.html
+
 # show the results
 barplot(sort(table(udpipeResults$upos)), horiz = TRUE, las = 2)
 
