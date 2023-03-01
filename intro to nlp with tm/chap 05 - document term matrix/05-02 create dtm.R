@@ -2,10 +2,10 @@
 library(tm)
 
 # Pull in a sample corpus
-newVCorpus <- readRDS("newVCorpus.RDS")
+poetCorpus <- readRDS("poetCorpus.RDS")
 
 # create a document term matrix
-DTmatrix <- DocumentTermMatrix(newVCorpus)
+DTmatrix <- DocumentTermMatrix(poetCorpus)
 inspect(DTmatrix)
 
 # control allows the use of transforms at creation of dtm

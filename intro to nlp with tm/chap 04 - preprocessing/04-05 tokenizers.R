@@ -7,29 +7,14 @@ long precisely - having little or no money in my purse, and
 nothing particular to interest me on shore, I thought I would sail 
 about a little and see the watery part of the world.")
 
+# produces bag of words -----------
 Boost_tokenizer(sampleText)
 
-# It's not hard to see the results of Boost_tokenizer; the text has been broken
-# into words. This is often referred to as “bag of words” and allows analysis
-# such as word frequency, but sacrifices context. For example, is the word
-# "interest" a relational term or a financial term. In the above context it is
-# obvious the author is talking about their involvement in their life on shore.
-# If the context was a quarterly report from a public company, "interest" would
-# have an entirely different meaning. More sophisticated tokenization such as
-# phrase or sentence recognition will might preserve the difference between
-# “useful” and “not useful.” This is why there are different tokenizers. tm
-# provides a function to list tokenizers included with the package.
+# tm provides a function to list tokenizers included with the package.
 
 getTokenizers()
 
-# These three tokenizers are similar in behavior:
-## Boost_tokenizer implements the Boost tokenizer from the boost library. It
-# breaks strings up by spaces and punctuation.
-## MC_tokenizer implements a tokenizer from the MC Toolkit. Unfortunately,
-# documentation and source code has become elusive.
-## scan_tokenizer is an alias for scan(..., what = "character").
-
-# Use regular expressions to tokenize
+# Use regular expressions to tokenize --------------
 
 # Regexp_Tokenizer is actually part of the nlp package which is loaded by tm.
 # Regexp_Tokenizer is based on base R gregexpr( ) and allows for extra function
