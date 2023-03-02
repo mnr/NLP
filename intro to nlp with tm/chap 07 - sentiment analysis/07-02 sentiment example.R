@@ -12,7 +12,8 @@ smallText <- get_tokens(c("hate","love","apathy"))
 get_nrc_sentiment(smallText) 
 
 # is smallText positive or negative?
-get_sentiment(smallText, method = "nrc") 
+sum(get_sentiment(smallText, method = "nrc") )
+get_sentiment(smallText, method = "nrc")
 
 # I'd rather use the means of all dictionary values
 rowMeans(get_nrc_sentiment(smallText))
@@ -29,5 +30,6 @@ poet_tmp <- tm_map(poetCorpus, FUN = get_nrc_sentiment)
 # move content to a data.frame
 poetDF <- poet_tmp$content
 # add titles to each row in the data.frame ------------
-poetDF$titles <- poet_tmp$dmeta["title"]
+poetDF$titles <- meta(poet_tmp, type = "indexed", tag = "title")
+
 # now - which is the angriest?
