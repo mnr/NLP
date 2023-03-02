@@ -1,4 +1,7 @@
 # sample data
+
+library(tm)
+
 poetCorpus <- readRDS("poetCorpus.RDS")
 poetTDM <- TermDocumentMatrix(poetCorpus,
                               control = list(

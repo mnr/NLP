@@ -1,14 +1,16 @@
 # sentiment datasets
 
-# install.packages("quanteda.textstats")
-library(quanteda.textstats)
-textstat_valence(x = smallText, dictionary = "nrc")
+# install.packages("quanteda")
+# install.packages("devtools")
+# devtools::install_github("quanteda/quanteda.sentiment") 
+
+library(quanteda)
+library(quanteda.sentiment)
 
 # list the different dictionaries
 # AFINN - valence, one list
 data_dictionary_AFINN
-textstat_valence(x = "anger", 
-                 dictionary = data_dictionary_AFINN)
+textstat_valence(x = "anger", dictionary = data_dictionary_AFINN)
 
 # ANEW - valence, three lists
 data_dictionary_ANEW

@@ -1,6 +1,8 @@
 # plotting nlp
 
 library(tm)
+install.packages("BiocManager")
+BiocManager::install("Rgraphviz")
 
 poetCorpus <- readRDS("poetCorpus.RDS")
 poetTDM <- TermDocumentMatrix(poetCorpus,
