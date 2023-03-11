@@ -38,6 +38,8 @@ lemma_dictionary <- readtext("WonderfulWizardofOz.txt") %>%
 lemmafied <- readtext("WonderfulWizardofOz.txt") %>%
   unnest_tokens(word, text) %>%
   mutate(stem = wordStem(word)) %>%
+  mutate(Hun_stem = hunspell_stem(word)) %>%
   mutate(lemm = lemmatize_words(word , dictionary = lemma_dictionary)) %>%
-  filter(stem != lemm )
+  filter(stem != lemm ) %>%
+  select(-doc_id)
   
