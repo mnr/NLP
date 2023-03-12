@@ -1,4 +1,6 @@
 # term frequency with bind_tf_idf( )
+# a method to find the most likely document...
+# when searching for a word...
 
 library(tidyverse)
 library(tidytext)
@@ -28,5 +30,14 @@ tfidf_oz <- list.files(pattern = ".txt") %>%
   bind_tf_idf( term = word, document = doc_id, n = n ) %>%
   arrange(desc(tf_idf))
 
+# tf*idf with ngrams
+tfidf_oz <- list.files(pattern = ".txt") %>%
+  readtext() %>%
+  unnest_tokens(token = "ngrams", n = 6, 
+                output = "word",
+                input = "text") %>%
+  count(doc_id, word, sort = TRUE) %>%
+  bind_tf_idf( term = word, document = doc_id, n = n ) %>%
+  arrange(desc(tf_idf))
 
 

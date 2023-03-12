@@ -19,6 +19,8 @@ WizOzTibble %>% unnest_tokens(token = "paragraphs",
                               output = "wizWords")
 WizOzTibble %>% unnest_paragraphs(input = text,
                                   output = "wizWords")
+# note... the above two statements are the same
+
 WizOzTibble %>% unnest_sentences(input = text,
                                  output = "wizWords")
 WizOzTibble %>% unnest_characters(input = text,
