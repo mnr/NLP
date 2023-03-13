@@ -9,6 +9,7 @@ sentiments
 unique(sentiments$sentiment)
 
 # select other sentiment dictionaries. afinn, nrc, bing, loughran
+install.packages("textdata")
 get_sentiments(lexicon = "nrc")
 
 # use inner join to attach sentiment values
