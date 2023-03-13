@@ -13,13 +13,6 @@ POS_OZ <- readtext("WonderfulWizardofOz.txt") %>%
   anti_join(stop_words, by = "word") %>%
   inner_join(parts_of_speech)
 
-# Note: "Frank" vs "frank" --------
-POS_OZ <- readtext("WonderfulWizardofOz.txt") %>%
-  unnest_tokens(word, text, to_lower = FALSE) %>%
-  filter(!grepl('[[:digit:]]', word)) %>%
-  anti_join(stop_words, by = "word") %>%
-  inner_join(parts_of_speech)
-
 # what to do with this information? -------
 POS_OZ <- readtext("WonderfulWizardofOz.txt") %>%
   unnest_tokens(word, text, to_lower = FALSE) %>%
