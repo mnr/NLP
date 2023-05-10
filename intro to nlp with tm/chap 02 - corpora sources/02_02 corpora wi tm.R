@@ -37,6 +37,9 @@ summary(newSimpleCorpus)
 # permanent corpus
 # not limited by volatile memory
 # but...you can't (easily) access it after a session ends
+
+# install.packages("filehash")
+library(filehash)
 newPCorpus <- PCorpus(DirSource(directory = "poetry", 
                                 pattern = "*.txt"),
                       dbControl = (list(dbName = "myPCorpus.rds", 
