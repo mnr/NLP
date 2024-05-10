@@ -26,7 +26,9 @@ stemmed <- readtext("WonderfulWizardofOz.txt") %>%
   unnest_tokens(word, text) %>%
   filter(!grepl('[[:digit:]]', word)) %>%
   anti_join(stop_words, by = "word") %>%
-  mutate(stem = hunspell_stem(word)) %>%
+  mutate(stem = hunspell_stem(word)) 
+
+%>%
   count(stem, sort = TRUE)
 
 # lemmification

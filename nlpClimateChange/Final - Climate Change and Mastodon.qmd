@@ -1,0 +1,310 @@
+---
+title: "Climate Change & Mastodon"
+author:
+  - name: "Mark Niemann-Ross"
+    orcid: 0000-0002-3381-4604
+    email: mark.niemannross+CliChg@gmail.com
+date: today
+abstract: |
+  This research answers the following questions:
+  
+  -   When discussing climate change, what additional topics are likely to appear in conversations?
+  
+    -   What terms, phrases, or hashtags are likely to appear in discussions about climate change?
+  
+  -   Which five Mastodon servers are most likely to host discussions about climate change?
+  
+  -   Which five individuals are most likely to discuss climate change?
+  
+  -   Are discussions about climate change positive or negative?
+  
+keywords: 
+  - climate change
+  - mastodon
+format: docx
+editor: visual
+toc: true
+params:
+  findThisHashtag: "#climatechange"
+  instanceSampleSize: 20
+---
+
+```{r}
+#| label: Build a tibble of related mastodon toots
+
+#| echo: false
+#| message: false
+#| warning: false
+#| error: false
+library(rtoot)
+library(tibble)
+library(htm2txt)
+library(quanteda)
+
+findThisHashtag <- params$findThisHashtag
+instanceSampleSize <- params$instanceSampleSize
+
+# load in the list of instances ---------------
+masto_instances <- readRDS(file = "~/Documents/NLP/nlpClimateChange/mastodon_instances.RDS")
+
+# grab a sub-sample, nrows = instanceSampleSize
+masto_instances_sampled <- masto_instances[sample(nrow(masto_instances), instanceSampleSize), ]
+
+masto_toots <- tibble()
+
+# build a tibble containing toots of #climatechange
+for (anInstance in masto_instances_sampled$name) {
+  try(silent = TRUE, 
+      expr = {
+      masto_anInstance <- get_timeline_hashtag(instance = anInstance,hashtag = "climatechange")
+      masto_toots <- rbind(masto_toots,masto_anInstance)
+    },
+      )
+}
+
+# convert masto_toots$content from html to text
+masto_toots$content <- htm2txt(masto_toots$content)
+
+# extract interesting parts of URL
+url_parts <- strsplit(x = masto_toots$"url",
+          split = "/")
+masto_toots$instance <- sapply(url_parts, "[[", 3)
+masto_toots$contributor <- sapply(url_parts, "[[", 4)
+
+# trim out the unwanted columns
+masto_col_names <- c("id","content","created_at",
+"reblogs_count","favourites_count",
+"replies_count","url","instance",
+"contributor")
+masto_toots <- masto_toots[ , masto_col_names]
+
+```
+
+# Introduction
+
+Research on climate change helps us understand the complexities of the Earth's climate system and the impacts of human activities on the environment. Research can develop models to predict future changes, assess risks, and formulate strategies to mitigate its effects.
+
+# Methods
+
+In this research, I pulled information from a random sample of Mastodon servers. The sample size was `r instanceSampleSize` from a list of `r nrow(masto_instances)`
+
+# Results
+
+## Related Topics
+
+*When discussing climate change, what additional topics are likely to appear in conversations?*
+
+In this research, #climateChange is an obvious starting point to discover obscured relationships. To find topics related to #climateChange, I followed this procedure:
+
+1.  Create a random list of mastodon instances
+
+2.  Ask each mastodon instance for any toots (messages) which include the #climateChange hashtag
+
+3.  From the list of toots, generate a list of tokens
+
+4.  Remove any tokens which do not begin with the hashtag symbol (#)
+
+5.  Create a document-feature matrix of the hashtags
+
+6.  Sort and print a list of the most frequent hashtags
+
+```{r}
+#| message: false
+#| warning: false
+#| error: false
+#| label: Get Hashtags
+
+# masto_toots is a tibble created at the top of this document
+# prep column names for quanteda
+masto_col_names[1] <- "doc_id"
+masto_col_names[2] <- "text"
+names(masto_toots) <- masto_col_names
+
+climateChange_hashtags <- corpus(masto_toots, 
+                               docid_field = "doc_id",
+                               text_field = "text",
+                               unique_docnames = FALSE) |>
+  tokens() |>
+  dfm() |>
+  dfm_keep(pattern = "#*")
+```
+
+This list of hashtags was created from a list of toots.
+
+Total number of hashtags in this data set = `r ncol(climateChange_hashtags)`
+
+Total number of toots in this data set = `r nrow(climateChange_hashtags)`
+
+```{r}
+#| label: Show Hashtags
+
+topfeatures(climateChange_hashtags, n = 10)
+```
+
+## Related Terms and Phrases
+
+*What terms and phrases are likely to appear in discussions about climate change?*
+
+There are three items of interest identified with discussions on climate change: hashtags, single words (aka tokens), and phrases (aka n-grams). The above exercise identified hashtags; this section identifies words and phrases.
+
+Identification of related phrases is a similar process to identifying related hashtags. Instead of removing all tokens *except* hashtags, finding tokens requires removing all hashtags, but leaving tokens intact.
+
+```{r}
+#| label: Get related features
+
+# related terms (features)
+climateChange_tokens <- corpus(masto_toots, 
+                                 docid_field = "doc_id",
+                                 text_field = "text",
+                                 unique_docnames = FALSE) |>
+  tokens(remove_punct = TRUE, 
+         remove_numbers = TRUE,
+         remove_symbols = TRUE) |>
+  tokens_remove(pattern = stopwords("en")) |>
+  tokens_remove(pattern = "#*") |>
+  dfm()
+```
+
+### Terms related to #climatechange
+
+`climateChange_tokens` is filled with individual words that appear in climate change discussions. Here are the top-ten most frequent words.
+
+```{r}
+#| label: Show related terms
+
+topfeatures(climateChange_tokens, n = 10)
+```
+
+### Phrases related to #climatechange
+
+Phrases can be any combination of words, a minimum of two but possibly more. This is accomplished through the use of n-grams, although there are more sophisticated methods for identifying phrases. Here is code to identify two-word phrases.
+
+```{r}
+#| label: Get related phrases
+
+# related n-grams
+climateChange_tok_ngram <- corpus(masto_toots, 
+                                 docid_field = "doc_id",
+                                 text_field = "text",
+                                 unique_docnames = FALSE) |>
+  tokens(remove_punct = TRUE, 
+         remove_numbers = TRUE,
+         remove_symbols = TRUE) |>
+  tokens_remove(pattern = stopwords("en")) |>
+  tokens_remove(pattern = "#*") |>
+  tokens_ngrams() |>
+  dfm()
+```
+
+Here is the list of the ten most-frequent two-word phrases:
+
+```{r}
+#| label: Show related phrases
+
+topfeatures(climateChange_tok_ngram, n = 10)
+```
+
+## Related Servers
+
+*Which five Mastodon servers are most likely to host discussions about climate change?*
+
+This research is built around a sampled list of servers `r instanceSampleSize` from a list of `r nrow(masto_instances)` servers. Given patience and available CPU, it is possible to open up research to the entire fediverse of possible servers.
+
+```{r}
+#| label: Get related servers
+
+#| message: false
+#| warning: false
+#| error: false
+library("quanteda.textstats", quietly = TRUE)
+masto_freqInstance <- corpus(masto_toots, 
+       docid_field = "doc_id",
+       text_field = "text",
+       unique_docnames = FALSE) |>
+  tokens() |>
+  dfm() |>
+  dfm_keep(pattern = "#*") |>
+  dfm_group(instance) |>
+  textstat_frequency(groups = instance) |>
+  (\(x) {table(x$group)})() |>
+  sort(decreasing = TRUE) |>
+  head(n=5)
+```
+
+Note that this listing fails to account for overall popularity of each server. For example, mastodon.social has approximately 15% of all mastodon accounts. The next largest has 12% and the numbers drop rapidly in subsequent servers.
+
+```{r}
+#| label: Show related servers
+
+masto_freqInstance
+```
+
+## Active Individuals
+
+*Which five individuals are most likely to discuss climate change?*
+
+It is important to recognize the impact of bots which are simply running to amplify a particular viewpoint, rather than individuals engaged in production conversation. By identifying a list of most frequent contributors, it is possible to ascertain if an account should be trusted.
+
+```{r}
+#| label: Get active individuals
+
+masto_freqIndividuals <- corpus(masto_toots, 
+       docid_field = "doc_id",
+       text_field = "text",
+       unique_docnames = FALSE) |>
+  tokens() |>
+  dfm() |>
+  dfm_keep(pattern = "#*") |>
+  dfm_group(contributor) |>
+  textstat_frequency(groups = contributor) |>
+  (\(x) {table(x$group)})() |>
+  sort(decreasing = TRUE) |>
+  head()
+```
+
+This produces a list of top-ten contributors from the random sample of mastodon instances:
+
+```{r}
+#| label: Show active individuals
+
+masto_freqIndividuals
+```
+
+## Climate Change Sentiment
+
+*Are discussions about climate change positive or negative?*
+
+This research uses the simplest approach possible for calculating sentiment. Quanteda provides `textstat_polarity` for quick sentiment analysis, producing a positive result if the conversation is "positive" or a negative result if the conversation is "negative."
+
+```{r}
+#| label: Get #climatechange sentiment
+
+#| message: false
+#| warning: false
+#| error: false
+library("quanteda.sentiment", quietly = TRUE)
+masto_sentiment <- textstat_polarity(climateChange_tokens,
+                  dictionary = data_dictionary_LSD2015) |>
+  (\(x) {sum(x$sentiment)})()
+
+```
+
+The sentiment of conversations related to #climateChange is `r masto_sentiment` . This is simple polarity, with negative values indicating a negative attitude and positive values indicating generally positive feelings. In this case, the sentiment value indicates generally `r ifelse(masto_sentiment > 0, "positive", "negative")` attitudes about #climateChange.
+
+# Discussion
+
+Researching the discussion surrounding climate change is vital for several reasons:
+
+1.  **Understanding the Issue**: Climate change is a complex phenomenon with far-reaching implications. Research helps us grasp the various factors contributing to it, such as greenhouse gas emissions, deforestation, and industrial practices.
+
+2.  **Informing Policy Decisions**: Policymakers rely on scientific research to formulate effective policies addressing climate change. Understanding the latest findings helps in crafting legislation and regulations aimed at mitigating its impacts and transitioning to more sustainable practices.
+
+3.  **Mitigation and Adaptation Strategies**: Research provides insights into mitigation strategies to reduce greenhouse gas emissions and adapt to the changes already underway. This includes developing renewable energy sources, implementing sustainable agricultural practices, and planning for sea-level rise and extreme weather events.
+
+4.  **Public Awareness and Education**: Research findings help raise public awareness about the urgency of addressing climate change. Educating people about the causes, impacts, and potential solutions empowers them to make informed decisions in their daily lives and advocate for policy changes.
+
+5.  **International Cooperation**: Climate change is a global challenge that requires coordinated efforts from countries worldwide. Research serves as a common ground for international collaboration, facilitating data sharing, technology transfer, and joint initiatives to combat climate change collectively.
+
+6.  **Economic Implications**: Climate change can have significant economic consequences, affecting industries, employment, and overall economic stability. Research helps assess the economic risks and opportunities associated with climate change, informing investment decisions and business strategies.
+
+7.  **Environmental Justice**: Climate change disproportionately affects vulnerable communities, including low-income populations and indigenous peoples. Research helps identify these disparities and advocate for equitable solutions that prioritize environmental justice and social equity.

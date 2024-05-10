@@ -1,0 +1,188 @@
+---
+title: "Climate Change & Mastodon"
+author:
+  - name: "Mark Niemann-Ross"
+    orcid: 0000-0002-3381-4604
+    email: mark.niemannross+CliChg@gmail.com
+date: today
+abstract: |
+  This research answers the following questions:
+  
+  -   When discussing climate change, what additional topics are likely to appear in conversations?
+  
+    -   What terms, phrases, or hashtags are likely to appear in discussions about climate change?
+  
+  -   Which five Mastodon servers are most likely to host discussions about climate change?
+  
+  -   Which five individuals are most likely to discuss climate change?
+  
+  -   Are discussions about climate change positive or negative?
+  
+keywords: 
+  - climate change
+  - mastodon
+format: docx
+editor: visual
+toc: true
+params:
+  findThisHashtag: "#climatechange"
+  instanceSampleSize: 20
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| error: false
+library(rtoot)
+library(tibble)
+library(htm2txt)
+library(quanteda)
+library(stringr)
+
+findThisHashtag <- params$findThisHashtag
+instanceSampleSize <- params$instanceSampleSize
+
+# load in the list of instances ---------------
+masto_instances <- readRDS(file = "~/Documents/NLP/nlpClimateChange/mastodon_instances.RDS")
+
+# grab a sub-sample, nrows = instanceSampleSize
+masto_instances_sampled <- masto_instances[sample(nrow(masto_instances), instanceSampleSize), ]
+
+masto_toots <- tibble()
+
+# build a tibble containing toots of #climatechange
+for (anInstance in masto_instances_sampled$name) {
+  try(silent = TRUE, 
+      expr = {
+      masto_anInstance <- get_timeline_hashtag(instance = anInstance,hashtag = "climatechange")
+      masto_toots <- rbind(masto_toots,masto_anInstance)
+    },
+      )
+}
+
+# convert masto_toots$content from html to text
+masto_toots$content <- htm2txt(masto_toots$content)
+
+# extract interesting parts of URL
+url_parts <- str_split(string = masto_toots$"url",
+          pattern = "/")
+masto_toots$instance <- sapply(url_parts, "[[", 3)
+masto_toots$contributor <- sapply(url_parts, "[[", 4)
+
+# trim out the unwanted columns
+masto_col_names <- c("id","content","created_at",
+"reblogs_count","favourites_count",
+"replies_count","url","instance",
+"contributor")
+masto_toots <- masto_toots[ , masto_col_names]
+
+```
+
+# Introduction
+
+\[*Note: this example document does not follow any formal style guides*\]
+
+Research on climate change helps us understand the complexities of the Earth's climate system and the impacts of human activities on the environment. Research can develop models to predict future changes, assess risks, and formulate strategies to mitigate its effects.
+
+# Methods
+
+In this research, I pulled information from a random sample of Mastodon servers. The sample size was `r instanceSampleSize` from a list of `r nrow(masto_instances)`
+
+# Results
+
+## Related Topics
+
+*When discussing climate change, what additional topics are likely to appear in conversations?*
+
+In this research, #climateChange is an obvious starting point to discover obscured relationships.
+
+\[*insert your solution here\]*
+
+```{r}
+
+```
+
+## Related Terms and Phrases
+
+*What terms and phrases are likely to appear in discussions about climate change?*
+
+There are three items of interest identified with discussions on climate change: hashtags, single words (aka tokens), and phrases (aka n-grams). The above exercise identified hashtags; this section identifies words and phrases.
+
+Identification of related phrases is a similar process to identifying related hashtags. Instead of removing all tokens *except* hashtags, finding tokens requires removing all hashtags, but leaving tokens intact.
+
+\[*insert your code here\]*
+
+```{r}
+
+```
+
+### Terms related to #climatechange
+
+`climateChange_tokens` is filled with individual words that appear in climate change discussions. Here are the top-ten most frequent words.
+
+\[*insert your code here*\]
+
+```{r}
+
+```
+
+### Phrases related to #climatechange
+
+Phrases can be any combination of words, a minimum of two but possibly more. This is accomplished through the use of n-grams, although there are more sophisticated methods for identifying phrases. Here is code to identify two-word phrases.
+
+```{r}
+
+```
+
+Here is the list of the ten most-frequent two-word phrases:
+
+```{r}
+
+```
+
+## Related Servers
+
+*Which five Mastodon servers are most likely to host discussions about climate change?*
+
+This research is built around a sampled list of servers `r instanceSampleSize` from a list of `r nrow(masto_instances)` servers. Given patience and available CPU, it is possible to open up research to the entire fediverse of possible servers.
+
+```{r}
+
+```
+
+## Active Individuals
+
+*Which five individuals are most likely to discuss climate change?*
+
+It is important to recognize the impact of bots which are simply running to amplify a particular viewpoint, rather than individuals engaged in production conversation. By identifying a list of most frequent contributors, it is possible to ascertain if an account should be trusted.
+
+```{r}
+
+```
+
+## Climate Change Sentiment
+
+*Are discussions about climate change positive or negative?*
+
+```{r}
+
+```
+
+# Discussion
+
+Researching the discussion surrounding climate change is vital for several reasons:
+
+1.  **Understanding the Issue**: Climate change is a complex phenomenon with far-reaching implications. Research helps us grasp the various factors contributing to it, such as greenhouse gas emissions, deforestation, and industrial practices.
+
+2.  **Informing Policy Decisions**: Policymakers rely on scientific research to formulate effective policies addressing climate change. Understanding the latest findings helps in crafting legislation and regulations aimed at mitigating its impacts and transitioning to more sustainable practices.
+
+3.  **Mitigation and Adaptation Strategies**: Research provides insights into mitigation strategies to reduce greenhouse gas emissions and adapt to the changes already underway. This includes developing renewable energy sources, implementing sustainable agricultural practices, and planning for sea-level rise and extreme weather events.
+
+4.  **Public Awareness and Education**: Research findings help raise public awareness about the urgency of addressing climate change. Educating people about the causes, impacts, and potential solutions empowers them to make informed decisions in their daily lives and advocate for policy changes.
+
+5.  **International Cooperation**: Climate change is a global challenge that requires coordinated efforts from countries worldwide. Research serves as a common ground for international collaboration, facilitating data sharing, technology transfer, and joint initiatives to combat climate change collectively.
+
+6.  **Economic Implications**: Climate change can have significant economic consequences, affecting industries, employment, and overall economic stability. Research helps assess the economic risks and opportunities associated with climate change, informing investment decisions and business strategies.
+
+7.  **Environmental Justice**: Climate change disproportionately affects vulnerable communities, including low-income populations and indigenous peoples. Research helps identify these disparities and advocate for equitable solutions that prioritize environmental justice and social equity.
